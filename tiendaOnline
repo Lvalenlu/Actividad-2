@@ -1,0 +1,89 @@
+#include <iostream>
+#include <string>
+
+class Producto {
+protected:
+    std::string nombre;
+    double precio;
+    int stock;
+
+public:
+    Producto(const std::string& n, double p, int s) : nombre(n), precio(p), stock(s) {}
+
+    const std::string& getNombre() const { return nombre; }
+    double getPrecio() const { return precio; }
+    int getStock() const { return stock; }
+
+    void setPrecio(double p) { precio = p; }
+    void setStock(int s) { stock = s; }
+
+    virtual void mostrarInformacion() {
+        std::cout << "Nombre: " << nombre << std::endl;
+        std::cout << "Precio: $" << precio << std::endl;
+        std::cout << "Stock: " << stock << std::endl;
+    }
+};
+
+class ProductoElectronico : public Producto {
+private:
+    std::string marca;
+    std::string modelo;
+
+public:
+    ProductoElectronico(const std::string& n, double p, int s, const std::string& m, const std::string& mod)
+        : Producto(n, p, s), marca(m), modelo(mod) {}
+
+    void mostrarInformacion() override {
+        Producto::mostrarInformacion();
+        std::cout << "Marca: " << marca << std::endl;
+        std::cout << "Modelo: " << modelo << std::endl;
+    }
+};
+
+class ProductoRopa : public Producto {
+private:
+    std::string talla;
+    std::string color;
+
+public:
+    ProductoRopa(const std::string& n, double p, int s, const std::string& t, const std::string& c)
+        : Producto(n, p, s), talla(t), color(c) {}
+
+    void mostrarInformacion() override {
+        Producto::mostrarInformacion();
+        std::cout << "Talla: " << talla << std::endl;
+        std::cout << "Color: " << color << std::endl;
+    }
+};
+
+class ProductoLibro : public Producto {
+private:
+    std::string autor;
+    std::string genero;
+
+public:
+    ProductoLibro(const std::string& n, double p, int s, const std::string& a, const std::string& g)
+        : Producto(n, p, s), autor(a), genero(g) {}
+
+    void mostrarInformacion() override {
+        Producto::mostrarInformacion();
+        std::cout << "Autor: " << autor << std::endl;
+        std::cout << "Género: " << genero << std::endl;
+    }
+};
+
+int main() {
+    ProductoElectronico celular("Smartphone", 599.99, 50, "Apple", "iPhone 13");
+    ProductoRopa camisa("Camisa Casual", 29.99, 100, "M", "Azul");
+    ProductoLibro libro("La Odisea", 12.99, 30, "Homero", "Épico");
+
+    Producto* productos[] = {&celular, &camisa, &libro};
+
+    for (Producto* p : productos) {
+        std::cout << "Información del producto:" << std::endl;
+        p->mostrarInformacion();
+        std::cout << "------------------------" << std::endl;
+    }
+
+    return 0;
+}
